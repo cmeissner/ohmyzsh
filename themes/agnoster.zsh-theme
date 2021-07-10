@@ -215,6 +215,17 @@ prompt_virtualenv() {
   fi
 }
 
+# Pyenv: current working pyenv
+prompt_pyenv() {
+  if [[ -n $PYENV_VIRTUAL_ENV ]]; then
+    local version
+    version=${(@)$(pyenv version)[1]}
+    if [[ $version != system ]]; then
+      prompt_segment yellow black "$version"
+    fi
+  fi
+}
+
 # Status:
 # - was there an error
 # - am I root
@@ -247,6 +258,7 @@ build_prompt() {
   RETVAL=$?
   prompt_status
   prompt_virtualenv
+  prompt_pyenv
   prompt_aws
   prompt_context
   prompt_dir
